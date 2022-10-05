@@ -7,7 +7,7 @@ function Inputs({ auth, registerUser, loginUser }) {
 
   useEffect(() => {
     const delayFn = setTimeout(() => {
-      email && console.log(email);
+      setEmail(email);
     }, 2000);
 
     return () => clearTimeout(delayFn);
@@ -15,7 +15,7 @@ function Inputs({ auth, registerUser, loginUser }) {
 
   useEffect(() => {
     const delayFn = setTimeout(() => {
-      password && console.log(password);
+      setPassword(password);
     }, 1500);
 
     return () => clearTimeout(delayFn);
@@ -27,11 +27,10 @@ function Inputs({ auth, registerUser, loginUser }) {
       : alert("Failed! Please provide email or password!");
   }
 
-
   function login() {
     emailAndPassword
-    ? loginUser(auth, email, password)
-    : alert("Failed! Please provide email or password!");
+      ? loginUser(auth, email, password)
+      : alert("Failed! Please provide email or password!");
   }
 
   return (
