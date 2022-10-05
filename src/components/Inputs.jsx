@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Inputs({ auth, registerUser }) {
+function Inputs({ auth, registerUser, loginUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailAndPassword = email && password;
@@ -16,7 +16,7 @@ function Inputs({ auth, registerUser }) {
   useEffect(() => {
     const delayFn = setTimeout(() => {
       password && console.log(password);
-    }, 2000);
+    }, 1500);
 
     return () => clearTimeout(delayFn);
   }, [password]);
@@ -24,11 +24,14 @@ function Inputs({ auth, registerUser }) {
   function register() {
     emailAndPassword
       ? registerUser(auth, email, password)
-      : alert("Failed to provide email or password!");
+      : alert("Failed! Please provide email or password!");
   }
 
+
   function login() {
-    console.log("login");
+    emailAndPassword
+    ? loginUser(auth, email, password)
+    : alert("Failed! Please provide email or password!");
   }
 
   return (
