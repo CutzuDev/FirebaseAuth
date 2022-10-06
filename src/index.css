@@ -170,6 +170,20 @@ nav {
   font-weight: 700;
 }
 
+.container--full {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f8f8;
+}
+
+.container--full .btn {
+  background-color: #bbe8ff;
+  margin-left: 20px;
+}
+
 @keyframes flip {
   0% {
     transform: scaleX(-1);
