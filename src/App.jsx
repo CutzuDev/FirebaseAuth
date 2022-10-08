@@ -13,6 +13,8 @@ import {
   doc,
   query,
   where,
+  updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { useState } from "react";
 import Nav from "./components/Nav";
@@ -24,6 +26,24 @@ import _ from "underscore";
 function App() {
   const [user, setUser] = useState({});
   const [logged, setLogged] = useState(false);
+
+  async function updatePost() {
+    const hardcodedId = "EnYUwsmaetoi0AEfjSpz";
+    const postRef = doc(db, "posts", hardcodedId);
+    const post = await getPostById(hardcodedId);
+    console.log(post);
+    const newPost = {
+      ...post,
+      title: "Land 6000k Job",
+    };
+    updateDoc(postRef, newPost);
+  }
+
+  function deletePost() {
+    const hardcodedId = "EnYUwsmaetoi0AEfjSpz";
+    const postRef = doc(db, "posts", hardcodedId);
+    deleteDoc(postRef);
+  }
 
   function createPost() {
     const post = {
@@ -40,16 +60,10 @@ function App() {
     console.log(posts);
   }
 
-  async function getPostById() {
-    const hardcodedId = "AmOHW9tdHZIs7Vz0XyEL";
-    const postRef = doc(db, "posts", hardcodedId);
+  async function getPostById(id) {
+    const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
-    if (postSnap.exists()) {
-      const post = postSnap.data();
-      console.log(post);
-    } else {
-      console.log("Failed");
-    }
+    return postSnap.data();
   }
 
   onAuthStateChanged(auth, (user) => {
@@ -100,6 +114,16 @@ function App() {
     setUser({});
   }
 
+  async function getPostByUid() {
+    const postCollectionRef = await query(
+      collection(db, "posts"),
+      where("uid", "==", user.uid)
+    );
+
+    const { docs } = await getDocs(postCollectionRef);
+    console.log(docs.map((doc) => doc.data()));
+  }
+
   return (
     <div className="App">
       <Nav user={user} />
@@ -118,6 +142,15 @@ function App() {
         </button>
         <button className="btn hover" onClick={getPostById}>
           Get Post by ID
+        </button>
+        <button className="btn hover" onClick={getPostByUid}>
+          Get Post by UID
+        </button>
+        <button className="btn hover" onClick={updatePost}>
+          Update Post
+        </button>
+        <button className="btn hover" onClick={deletePost}>
+          Delete Post
         </button>
       </div>
     </div>
