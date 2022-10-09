@@ -27,6 +27,18 @@ function App() {
   const [user, setUser] = useState({});
   const [logged, setLogged] = useState(false);
 
+  onAuthStateChanged(auth, (user) => {
+    setTimeout(() => {
+      if (user) {
+        setUser(user);
+        setLogged(true);
+      } else {
+        setUser({});
+        setLogged(false);
+      }
+    }, 10);
+  });
+
   async function updatePost() {
     const hardcodedId = "EnYUwsmaetoi0AEfjSpz";
     const postRef = doc(db, "posts", hardcodedId);
@@ -65,18 +77,6 @@ function App() {
     const postSnap = await getDoc(postRef);
     return postSnap.data();
   }
-
-  onAuthStateChanged(auth, (user) => {
-    setTimeout(() => {
-      if (user) {
-        setUser(user);
-        setLogged(true);
-      } else {
-        setUser({});
-        setLogged(false);
-      }
-    }, 10);
-  });
 
   function registerUser(auth, email, password) {
     createUserWithEmailAndPassword(auth, email, password)
