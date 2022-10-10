@@ -103,9 +103,9 @@ function App() {
         if (errorCode === "auth/user-not-found") {
           alert("Failed! Account not found!");
         } else if (errorCode === "auth/wrong-password") {
-          alert("Failed! Wrong password!");
+          alert("Failed! Wrong password[!");  
         }
-      });
+      });                                  
   }
 
   function logoutUser() {
